@@ -1,6 +1,11 @@
 <template>
-  <div class="cake">
-    <mynavbar></mynavbar>
+  <div class="dessert">
+    <mynavbar :display="'none'"></mynavbar>
+    <div class="main">
+
+    <div class="banner">
+      <img src="../assets/dessert/banner.jpg" alt="">
+    </div>
     <div class="pro-list">
       <pro-show
         v-for="(pro,i) of products"
@@ -12,10 +17,11 @@
         :price="pro.pspecs[0].price"
       ></pro-show>
     </div>
+    </div>
     <div class="bottom_text">
       <p>没有更多产品咯</p>
     </div>
-    <tabber :active="'birthday'"></tabber>
+    <tabber :active="'dessert'"></tabber>
   </div>
 </template>
 <script>
@@ -23,7 +29,6 @@ import city from "../components/city.vue";
 import tabber from "../components/tabbar.vue";
 import mynavbar from "../components/mynavBar.vue";
 import proShow from "../components/proShow.vue";
-
 export default {
   components: {
     city,
@@ -38,9 +43,7 @@ export default {
     };
   },
   mounted() {
-    let taste=this.$router.taste
-    console.log(taste)
-    this.$axios.get("/detail/prolist?iscake=1").then((res) => {
+    this.$axios.get("/detail/prolist?iscake=0").then((res) => {
       // 对请求到的商品信息数据做处理
       res.data.forEach((e) => {
         // 图片展示路径前拼接  http://127.0.0.1:3000/public/img/details/
@@ -54,12 +57,18 @@ export default {
 };
 </script>
 <style>
-div.cake {
+div.dessert{
   padding-bottom: 0.5rem;
+}
+div.main{
+  padding-top: 0.47rem;;
+}
+div.banner{
+  padding:0 0.15rem;
+  box-sizing: border-box;
 }
 div.pro-list {
   padding: 0.15rem;
-  padding-top: 0.47rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -68,26 +77,26 @@ div.bottom_text {
   padding: 0.12rem 0 0.32rem;
   text-align: center;
 }
-div.bottom_text p {
-  display: inline-block;
-  width: 1.5rem;
-  position: relative;
-  font-size: 0.12rem;
+div.bottom_text p{
+      display: inline-block;
+    width: 1.5rem;
+    position: relative;
+     font-size: 0.12rem;
 }
-div.bottom_text p::after,
-div.bottom_text p::before {
-  content: "";
-  position: absolute;
-  width: 0.24rem;
-  height: 1px;
-  background: #9c9c9c;
-  z-index: 1;
-  top: 50%;
+div.bottom_text p::after,div.bottom_text p::before{
+  content: '';
+    position: absolute;
+    width: 0.24rem;
+    height: 1px;
+    background: #9c9c9c;
+    z-index: 1;
+    top: 50%;
+   
 }
-div.bottom_text p::before {
+div.bottom_text p::before{
   left: 0;
 }
-div.bottom_text p::after {
+div.bottom_text p::after{
   right: 0;
 }
 </style>

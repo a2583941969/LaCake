@@ -6,11 +6,11 @@
         <div is-link @click="showP">
           <a href="javascrpt:;">
             <i></i>
-            <span>成都</span>
+            <span>{{ci}}</span>
           </a>
         </div>
         <van-popup v-model="show" position="left">
-          <city></city>
+          <city v-on:getCity="getCity"></city>
         </van-popup>
       </div>
       <!-- 轮播图 -->
@@ -74,13 +74,13 @@
         <span>蛋糕推荐</span>
       </h2>
       <!-- 循环的DIV -->
-      <div>
+      <div v-for="(pro,i) of products" :key="i">
         <a href="javascript:;">
-          <img src="../assets/index/hhsj_index.jpg" alt />
+          <img :src="`http://127.0.0.1:3000/public/img/details/${pro.index_img}`" alt />
         </a>
-        <div>
-          <p>花花世界</p>
-          <p>绽放柔情的花花世界</p>
+        <div :style="'color:'+pro.icolor">
+          <p>{{pro.pname}}</p>
+          <p>{{pro.ptext}}</p>
         </div>
       </div>
     </div>
@@ -137,7 +137,9 @@ export default {
     return {
       // 控制城市显示与隐藏的变量
       show: false,
-      swipers: [],
+      swipers: "",
+      products:'',
+      ci:'成都',
     };
   },
   methods: {
@@ -145,11 +147,24 @@ export default {
     showP() {
       this.show = true;
     },
+    getCity(val){
+      this.ci=val
+    },
+    // 封装axios方法,不带参数
+    getMsg(url) {
+      return new Promise(resolve=>{
+        this.$axios.get(url).then((result) => {
+          return resolve(result.data);
+        });
+      })
+    },
   },
   mounted() {
-    this.$axios.get("/index/banner").then((result) => {
-      this.swipers = result.data;
-      console.log(this.swipers);
+    this.getMsg('/index/banner').then(res=>{
+      this.swipers=res;
+    });
+    this.getMsg('/index/pro').then(res=>{
+      this.products=res;
     });
   },
 };
@@ -410,7 +425,7 @@ div.lecake_info > div {
   display: flex;
   justify-content: space-between;
 }
-div.lecake_info a{
+div.lecake_info a {
   color: #3e3e3e;
 }
 div.lecake_info > div > a {
@@ -421,14 +436,13 @@ div.lecake_info > div > a {
   border: 1px solid #4a3234;
   font-size: 0.12rem;
 }
-div.lecake_info>h3{
-      font-size: 10px;
-    color: #bababa;
-    margin-top: 18px;
-    line-height: 14px;
+div.lecake_info > h3 {
+  font-size: 10px;
+  color: #bababa;
+  margin-top: 18px;
+  line-height: 14px;
 }
-div.lecake_info>h3>a{
-    color: #bababa;
-
+div.lecake_info > h3 > a {
+  color: #bababa;
 }
 </style>

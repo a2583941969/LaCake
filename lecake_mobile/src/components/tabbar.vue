@@ -42,7 +42,7 @@ props:['active'],
         {
           name: "dessert",
           text: "甜点心礼",
-          path:"/",
+          path:"/dessert",
           icon: {
             active: require("../assets/tabBar/dessert01.png"),
             inactive: require("../assets/tabBar/dessert.png"),

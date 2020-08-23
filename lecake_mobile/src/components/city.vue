@@ -51,6 +51,7 @@ export default {
           }
           e.target.children[0].className = "active";
         }
+      this.$emit('getCity',this.city);
       }
     },
   },
