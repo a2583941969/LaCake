@@ -1,7 +1,8 @@
 <template>
   <div class="pro">
     <div>
-      <a href="javacript:;" :data-pid="pid">
+      <!-- :to="'/detail?pid='+pid" -->
+      <a @click="goDetail">
         <img :src="url" alt />
       </a>
       <div class="item_detail">
@@ -19,7 +20,19 @@
 
 <script>
 export default {
-  props: ["url", "pname", "ptext", "pid", "price"],
+  props: ["url", "pname", "ptext", "pid", "price","bool"],
+  methods:{
+    goDetail(){
+      let url=window.location.href;
+      if(url.indexOf('detail')+1){
+        this.$emit('sad',this.pid);
+        this.$router.push("/detail?pid="+this.pid)
+
+      }else{
+        this.$router.push("/detail?pid="+this.pid);
+      }
+    }
+  }
 };
 </script>
 

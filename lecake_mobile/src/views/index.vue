@@ -17,7 +17,7 @@
       <div class="banner">
         <van-swipe :autoplay="3000" indicator-color="#e8380d">
           <van-swipe-item v-for="(image, index) in swipers" :key="index">
-            <img :src="image.curl" />
+            <img v-lazy="image.curl" />
             <div :style="'color:'+image.textcolor">
               <p>{{image.btext}}</p>
               <p>{{image.stext}}</p>
@@ -75,9 +75,9 @@
       </h2>
       <!-- 循环的DIV -->
       <div v-for="(pro,i) of products" :key="i">
-        <a href="javascript:;">
-          <img :src="`http://127.0.0.1:3000/public/img/details/${pro.index_img}`" alt />
-        </a>
+        <router-link :to="'/detail?pid='+pro.pid">
+          <img v-lazy="`http://127.0.0.1:3000/public/img/details/${pro.index_img}`" alt />
+        </router-link>
         <div :style="'color:'+pro.icolor">
           <p>{{pro.pname}}</p>
           <p>{{pro.ptext}}</p>

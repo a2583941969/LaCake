@@ -16,7 +16,7 @@
       </a>
     </div>
     <van-popup v-model="filtrateshow" position="right">
-      <filtrate></filtrate>
+      <filtrate :filtrateshow="filtrateshow" @showFiltrate="showFiltrate" :taste="taste"></filtrate>
     </van-popup>
     <van-popup v-model="cityshow" position="left">
       <city v-on:getCity="getCity"></city>
@@ -27,7 +27,7 @@
 import city from "./city.vue";
 import filtrate from "./filtrate.vue"
 export default {
-  props:['display'],
+  props:['display','taste'],
   components: {
     city,
     filtrate
@@ -44,7 +44,7 @@ export default {
       this.cityshow = true;
     },
     showFiltrate(){
-      this.filtrateshow=true
+      this.filtrateshow=!this.filtrateshow;
     },
     getCity(val) {
       this.ci = val;
@@ -57,9 +57,6 @@ export default {
       }
     }
   },
-  computed:{
-    
-  }
 };
 </script>
 

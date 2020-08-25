@@ -43,7 +43,7 @@ export default {
     };
   },
   mounted() {
-    this.$axios.get("/detail/prolist?iscake=0").then((res) => {
+    this.$axios.get("/detail/prolist?iscake=0&taste=").then((res) => {
       // 对请求到的商品信息数据做处理
       res.data.forEach((e) => {
         // 图片展示路径前拼接  http://127.0.0.1:3000/public/img/details/
@@ -67,7 +67,7 @@ div.banner{
   padding:0 0.15rem;
   box-sizing: border-box;
 }
-div.pro-list {
+div.dessert div.pro-list {
   padding: 0.15rem;
   display: flex;
   flex-wrap: wrap;
@@ -100,3 +100,9 @@ div.bottom_text p::after{
   right: 0;
 }
 </style>
+
+
+
+// PXtorem  阿里手淘移动端解决方案
+//  Token
+//  JSONP

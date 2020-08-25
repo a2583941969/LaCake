@@ -8,33 +8,45 @@
           <span v-for="(taste,i) of tastes" :data-taste="taste" :key="i">{{taste}}</span>
         </div>
       </div>
-      <footer>
-        <a href="javascript:;">重置</a>
-        <router-link :to="'/cake?taste='+taste">确定</router-link>
+      <footer @click="filtrate">
+        <a data-text="reset">重置</a>
+        <a>确定</a>
       </footer>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: ["filtrateshow", "taste"],
   data() {
     return {
       tastes: ["雪域口味", "巧克力味", "芝士口味", "慕斯口味", "奶油口味"],
-      taste:'',
+      // t 用来保存当前选择的口味
+      t: "",
     };
   },
-  methods:{
-    changeFiltrate(e){
-      if(e.target.nodeName=="SPAN"){
-        const act=e.target.parentNode.getElementsByClassName("active");
-        if(act.length!==0){
-          act[0].className=""
+  methods: {
+    changeFiltrate(e) {
+      if (e.target.nodeName == "SPAN") {
+        const act = e.target.parentNode.getElementsByClassName("active");
+        if (act.length !== 0) {
+          act[0].className = "";
         }
-        e.target.className="active";
-        this.taste=e.target.dataset.taste;
+        e.target.className = "active";
+        this.t = e.target.dataset.taste;
       }
-    }
-  }
+    },
+    filtrate(e) {
+      if (e.target.nodeName == "A") {
+        this.$emit("showFiltrate");
+        // 判断，如果用户点击的是重置，则将t改为空字符串传值
+        if (e.target.dataset.text == "reset") {
+          this.t = "";
+        }
+        this.$parent.$parent.$emit("changeTaste", this.t);
+      }
+    },
+  },
 };
 </script>
 <style>
@@ -62,7 +74,7 @@ div.filtrate > div > div > h2 {
   box-sizing: border-box;
   line-height: 0.2rem;
 }
-div.filtrate > div > div > div::after{
+div.filtrate > div > div > div::after {
   content: "";
   display: block;
   clear: both;

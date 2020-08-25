@@ -51,7 +51,7 @@ props:['active'],
         {
           name: "shopcart",
           text: "购物袋",
-          path:"/",
+          path:"/shopcart",
           icon: {
             active: require("../assets/tabBar/shopcart01.png"),
             inactive: require("../assets/tabBar/shopcart.png"),

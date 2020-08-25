@@ -1,6 +1,6 @@
 <template>
   <div class="cake">
-    <mynavbar></mynavbar>
+    <mynavbar :taste="taste" @changeTaste="changeTaste"></mynavbar>
     <div class="pro-list">
       <pro-show
         v-for="(pro,i) of products"
@@ -35,21 +35,45 @@ export default {
     return {
       // 保存商品信息的数组
       products: [],
+      taste: "",
     };
   },
-  mounted() {
-    let taste=this.$router.taste
-    console.log(taste)
-    this.$axios.get("/detail/prolist?iscake=1").then((res) => {
-      // 对请求到的商品信息数据做处理
-      res.data.forEach((e) => {
-        // 图片展示路径前拼接  http://127.0.0.1:3000/public/img/details/
-        e.img_show = "http://127.0.0.1:3000/public/img/details/" + e.img_show;
-        // 将商品规格转为数组对象
-        e.pspecs = JSON.parse(e.pspecs);
-        this.products.push(e);
+  methods: {
+    changeTaste(val) {
+      this.taste = val;
+    },
+    // 封装一个发送axios  get请求商品数据的方法
+    getPro(value) {
+      let url = "/detail/prolist?iscake=1&taste=";
+      if (value !== undefined) {
+        url = url + value;
+      }
+      this.$axios.get(url).then((res) => {
+        // 对请求到的商品信息数据做处理
+        res.data.forEach((e) => {
+          // 图片展示路径前拼接  http://127.0.0.1:3000/public/img/details/
+          e.img_show = "http://127.0.0.1:3000/public/img/details/" + e.img_show;
+          // 将商品规格转为数组对象
+          e.pspecs = JSON.parse(e.pspecs);
+          this.products.push(e);
+        })  ;
       });
-    });
+    },
+  },
+  watch: {
+    // 监听taste，改变需发送请求
+    taste() {
+      this.products=[];
+      // 判断是否为空字符串
+      if (this.taste == "") {
+        this.getPro();
+      }else{
+        this.getPro(this.taste);
+      }
+    },
+  },
+  mounted() {
+    this.getPro();
   },
 };
 </script>
