@@ -4,7 +4,7 @@
       <img src="../assets/cart/empty.png" alt />
       <p>您还没有选购您的商品</p>
     </div>
-    <tabber :active="'shopcart'"></tabber>
+    <tabber :active="'shopcart'" :shop_count="shop_count"></tabber>
   </div>
 </template>
 
@@ -16,7 +16,9 @@ export default {
     tabber,
   },
   data() {
-    return {};
+    return {
+      shop_count:3
+    };
   },
 };
 </script>

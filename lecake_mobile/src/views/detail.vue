@@ -14,7 +14,7 @@
           <div>
             <p>
               <small>￥</small>
-              <strong>218</strong>
+              <strong>{{price}}</strong>
             </p>
           </div>
           <a href="javascrpt:;">
@@ -31,7 +31,7 @@
         </a>
         <!-- 商品规格 -->
         <div class="spec_selected">
-          <h3 @click="onClickButton">已选规格: 2-4人食</h3>
+          <h3 @click="onClickButton">已选规格: {{servings}}</h3>
           <div>
             <p>奶油芝士蛋糕</p>
             <p>
@@ -178,14 +178,21 @@
       <div class="spec">
         <p>建议食用人数</p>
         <div class="price">
-          <p class="price_left">约12*12*7cm 含5套餐具</p>
+          <p class="price_left">{{spec}}</p>
           <p class="price_right">
-            <span>￥336</span>
+            <span>￥{{price}}</span>
           </p>
         </div>
-        <div class="goods_switch">
-          <a href="javascript:;" class="active">2~4人食≈454g</a>
-          <a href="javascript:;">2~4人食≈454g</a>
+        <div class="goods_switch" @click="changeSpec">
+          <a
+            href="javascript:;"
+            v-for="(item,i) of pro_blurb.pspecs"
+            :key="i"
+            :class="i==0?'active':''"
+            :data-price="item.price"
+            :data-spec="item.spec"
+            :data-servings="item.servings"
+          >{{item.servings}}</a>
         </div>
       </div>
       <div class="btn">
@@ -226,6 +233,11 @@ export default {
       shopShow: false,
       pid: "",
       bool: false,
+      // 价格
+      price: "",
+      // 规格
+      spec: "",
+      servings: "",
     };
   },
   methods: {
@@ -233,6 +245,7 @@ export default {
       this.shopShow = true;
     },
     addCart() {
+      this.shopShow = false;
       this.$toast("加入成功");
     },
     // 按顺序执行的函数
@@ -256,6 +269,9 @@ export default {
             result.data[0].pdetail = result.data[0].pdetail.split("|");
           }
           this.pro_blurb = result.data[0];
+          this.price = this.pro_blurb.pspecs[0].price;
+          this.spec = this.pro_blurb.pspecs[0].spec;
+          this.servings = this.pro_blurb.pspecs[0].servings;
           console.log(this.pro_blurb);
           resolve(this.pro_blurb.iscake);
         });
@@ -276,15 +292,34 @@ export default {
     },
     valuepid(value) {
       this.pid = value;
-      this.bool=true
+      this.bool = true;
+    },
+    scrollToTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    },
+    changeSpec(e) {
+      if (e.target.nodeName == "A") {
+        let aEle = e.target.parentNode.getElementsByClassName("active");
+        if (aEle.length > 0) {
+          aEle[0].className = "";
+        }
+        e.target.className = "active";
+        this.price = e.target.dataset.price;
+        this.spec = e.target.dataset.spec;
+        this.servings = e.target.dataset.servings;
+        console.log(123)
+      }
     },
   },
   watch: {
     pid() {
       if (this.bool) {
-        this.products=[]
+        this.products = [];
         this.promise(this.pid);
-        
+        // setTimeout(()=>{
+        this.scrollToTop();
+        // },1000)
       }
     },
   },
@@ -379,6 +414,12 @@ div.goods_switch > a {
   color: #9c9c9c;
   text-align: center;
   font-size: 0.12rem;
+}
+div.goods_switch > a:nth-child(4) {
+  margin: 0;
+}
+div.goods_switch > a:nth-child(5){
+  margin-top: 0.08rem;
 }
 div.goods_switch > a.active {
   border-color: #ff4001;

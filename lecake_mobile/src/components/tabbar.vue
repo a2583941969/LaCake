@@ -1,7 +1,13 @@
 <template>
   <div class="tabbar">
     <van-tabbar v-model="act" active-color="red">
-      <van-tabbar-item v-for="(value,i) of tabbar" :name="value.name" :key="i" :to="value.path" >
+      <van-tabbar-item
+        v-for="(value,i) of tabbar"
+        :name="value.name"
+        :key="i"
+        :to="value.path"
+        :badge="i==3?count:''"
+      >
         <span>{{value.text}}</span>
         <template #icon="props">
           <img :src="props.active ? value.icon.active : value.icon.inactive" />
@@ -13,18 +19,18 @@
 
 <script>
 export default {
-props:['active'],
+  props: ["active","shop_count"],
   data() {
     return {
       // 控制城市显示与隐藏的变量
       show: false,
       act: this.active,
-      shop_count: "",
+      count:3,
       tabbar: [
         {
           name: "home",
           text: "首页",
-          path:"/",
+          path: "/",
           icon: {
             active: require("../assets/tabBar/index01.png"),
             inactive: require("../assets/tabBar/index.png"),
@@ -33,7 +39,7 @@ props:['active'],
         {
           name: "birthday",
           text: "生日蛋糕",
-          path:"/cake",
+          path: "/cake",
           icon: {
             active: require("../assets/tabBar/birthday01.png"),
             inactive: require("../assets/tabBar/birthday.png"),
@@ -42,7 +48,7 @@ props:['active'],
         {
           name: "dessert",
           text: "甜点心礼",
-          path:"/dessert",
+          path: "/dessert",
           icon: {
             active: require("../assets/tabBar/dessert01.png"),
             inactive: require("../assets/tabBar/dessert.png"),
@@ -51,16 +57,16 @@ props:['active'],
         {
           name: "shopcart",
           text: "购物袋",
-          path:"/shopcart",
+          path: "/shopcart",
           icon: {
             active: require("../assets/tabBar/shopcart01.png"),
             inactive: require("../assets/tabBar/shopcart.png"),
           },
         },
         {
-          name: "my",
+          name: "mycenter",
           text: "我的",
-          path:"/",
+          path: "/mycenter",
           icon: {
             active: require("../assets/tabBar/my01.png"),
             inactive: require("../assets/tabBar/my.png"),
@@ -72,7 +78,6 @@ props:['active'],
 };
 </script>
 <style>
-
 div.van-hairline--top-bottom > div > div > img {
   width: 33px;
   height: 33px;
@@ -81,10 +86,15 @@ div.van-tabbar {
   border-top: 1px solid #d1c6af;
   height: auto;
 }
-div.van-tabbar-item{
+div.van-tabbar-item {
   font-size: 0.12rem;
 }
 div.van-tabbar-item__text {
   margin-bottom: 8px;
+}
+div.van-info {
+  top: 5px;
+  -webkit-transform: translate(28%, -50%);
+  transform: translate(28%, -50%);
 }
 </style>

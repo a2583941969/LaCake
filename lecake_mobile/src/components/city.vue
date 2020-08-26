@@ -6,8 +6,8 @@
     </header>
     <div>
       <ul @click="changeCity">
-        <li v-for="(city,i) of citys" :key="i" :data-city="city">
-          <span>{{city}}</span>
+        <li v-for="(c,i) of citys" :key="i" :data-city="c">
+          <span :class="c==city?'active':''">{{c}}</span>
         </li>
       </ul>
     </div>

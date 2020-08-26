@@ -23,7 +23,6 @@ router.get('/prolist',(req,res)=>{
 // 获取商品详情信息
 router.get("/info",(req,res)=>{
   let pid=req.query.pid;
-
   let sql=`SELECT * FROM lecake_product WHERE pid=${pid}`;
   pool.query(sql,(err,result)=>{
     if(err)throw err;
@@ -33,7 +32,7 @@ router.get("/info",(req,res)=>{
 router.get('/rec',(req,res)=>{
   let pid=req.query.pid;
   let iscake=req.query.iscake;
-  let sql = `SELECT pid,pname,ptext,img_show,pspecs FROM lecake_product WHERE iscake=${iscake} AND pid!=${pid} `;
+  let sql = `SELECT pid,pname,ptext,img_show,pspecs FROM lecake_product WHERE iscake=${iscake} AND pid!=${pid}`;
   pool.query(sql,(err,result)=>{
     if(err)throw err;
     res.send(result);
