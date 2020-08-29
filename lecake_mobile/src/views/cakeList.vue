@@ -56,7 +56,7 @@ export default {
           // 将商品规格转为数组对象
           e.pspecs = JSON.parse(e.pspecs);
           this.products.push(e);
-        })  ;
+        }) ;
       });
     },
   },

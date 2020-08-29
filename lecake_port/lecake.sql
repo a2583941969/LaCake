@@ -9,7 +9,7 @@ USE lecake;
 CREATE TABLE lecake_user(
   uid INT PRIMARY KEY AUTO_INCREMENT, # 用户id
   phoneNum VARCHAR(11) NOT NULL UNIQUE, #用户手机号
-  upwd VARCHAR(16) NOT NULL,  #用户密码
+  upwd VARCHAR(30) ,  #用户密码
   gender TINYINT,  #性别1或0
   birthday DATE, #生日
   avatar VARCHAR(128) DEFAULT "http://127.0.0.1:3000/public/img/user/avatar.png"
