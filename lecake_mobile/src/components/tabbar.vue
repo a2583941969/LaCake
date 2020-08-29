@@ -6,7 +6,7 @@
         :name="value.name"
         :key="i"
         :to="value.path"
-        :badge="i==3?count:''"
+        :badge="i==3?shopCount:''"
       >
         <span>{{value.text}}</span>
         <template #icon="props">
@@ -19,13 +19,12 @@
 
 <script>
 export default {
-  props: ["active","shop_count"],
+  props: ["active"],
   data() {
     return {
       // 控制城市显示与隐藏的变量
       show: false,
       act: this.active,
-      count:3,
       tabbar: [
         {
           name: "home",
@@ -75,6 +74,11 @@ export default {
       ],
     };
   },
+  computed:{
+    shopCount(){
+      return this.$store.state.shopcart.length>0?this.$store.state.shopcart.length:'';
+    }
+  }
 };
 </script>
 <style>

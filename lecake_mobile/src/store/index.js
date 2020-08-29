@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     isLogin:localStorage.getItem("isLogin")||false,
     phoneNum:localStorage.getItem("phoneNum")||'',
-    shopcart:localStorage.getItem("shopcart")||[]
+    shopcart:JSON.parse(localStorage.getItem("shopcart"))||[]
   },
   mutations: {
     set_isLogin(state,bool){
@@ -15,7 +15,13 @@ export default new Vuex.Store({
     },
     set_phoneNum(state,tel){
       state.phoneNum=tel;
-
+    },
+    set_shopcart(state,obj){
+      if(obj==undefined){
+        state.shopcart.splice(0)
+      }else{
+        state.shopcart.unshift(obj)
+      }
     }
   },
   actions: {

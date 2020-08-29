@@ -1,7 +1,6 @@
 <template>
   <div class="shopcart">
-    <!-- $store.state.shopcart.length==0 -->
-    <div v-if="false">
+    <div v-if="$store.state.shopcart.length==0">
       <div class="no-shop">
         <img src="../assets/cart/empty.png" alt />
         <p>您还没有选购您的商品</p>
@@ -43,31 +42,32 @@
             <span>促销</span>
             <strong>周末庆生专享 赠盒子蛋糕</strong>
           </p>
-          <div class="goods_info">
+          <div class="goods_info" v-for="(pro,i) of $store.state.shopcart" :key="i">
             <a href="javascript:;">
-              <van-checkbox v-model="checked" checked-color="#ff4001"></van-checkbox>
+              <van-checkbox v-model="pro.ischecked" checked-color="#ff4001"></van-checkbox>
             </a>
             <div class="goods_message">
-              <a href="javasciipt:;">
+              <router-link :to="'/detail?pid='+pro.pid">
                 <div>
-                  <img src="http://127.0.0.1:3000/public/img/details/birthday/hyrl_show.jpg" alt />
+                  <img v-lazy="pro.img" alt />
                 </div>
-              </a>
+              </router-link>
               <div class="goods_detail">
-                <h2>壁咚！阿华田</h2>
+                <h2>{{pro.pname}}</h2>
                 <div class="standard_fitting">
                   <p class="fork">每份含餐具5套</p>
                 </div>
                 <div class="price_wrap">
                   <p>
                     ￥
-                    <strong>258</strong>
+                    <strong>{{pro.price*pro.count}}</strong>
                   </p>
                 </div>
-                <div class="input_wrap">
-                  <a href="javascript:;"></a>
-                  <input type="number" value="1" />
-                  <a href="javascript:;"></a>
+                <div class="input_wrap" @click="calcCount">
+                  <a href="javascript:;" :data-i="i" data-n="-1" v-if="pro.count>1"></a>
+                  <a href="javascript:;" :data-i="i" class="del" v-else data-del="×"></a>
+                  <input type="number" v-model="pro.count" />
+                  <a href="javascript:;" :data-i="i" data-n="+1"></a>
                 </div>
               </div>
             </div>
@@ -79,36 +79,107 @@
           </div>
         </div>
       </div>
+      <div class="amount">
+        <div class="inner">
+          <a href="javascript:;" @click="changeChecked">
+            <van-checkbox v-model="ischeck" checked-color="#ff4001" >全选</van-checkbox>
+          </a>
+          <div class="clearing">
+            <a href="javascript:;">结算</a>
+          </div>
+          <div class="total_price">
+            <p>
+              <span>
+                应付：￥
+                <strong>{{totalPrice}}</strong>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
     <van-popup v-model="presentshow" position="bottom" closeable>
       <h4>即日起至2020.10.31，单笔正价购买此蛋糕并选择周五至周日配送，赠「盒子蛋糕」一个，口味随机。本活动不与其他优惠同享（如优惠券、蛋糕券、兑换券、储值卡、银行优惠等）。</h4>
     </van-popup>
-    <tabber :active="'shopcart'" :shop_count="shop_count"></tabber>
+    <tabber :active="'shopcart'"></tabber>
   </div>
 </template>
 
 <script>
 import tabber from "../components/tabbar.vue";
 import proShow from "../components/proShow.vue";
+import { Dialog } from "vant";
 
 export default {
   components: {
     tabber,
     proShow,
+    [Dialog.Component.name]: Dialog.Component,
   },
   data() {
     return {
-      shop_count: 3,
       // 推荐商品数组
       products: [],
       presentshow: false,
-      checked: false,
+      bool:true
     };
   },
   methods: {
     promotionShow() {
       this.presentshow = true;
     },
+    calcCount(e) {
+      if (e.target.nodeName == "A") {
+        if (e.target.dataset.del == "×") {
+          Dialog.confirm({
+            message: "确认删除该商品吗?",
+          }).then(() => {
+            this.$store.state.shopcart.splice(e.target.dataset.i, 1);
+            let shopcartJson = JSON.stringify(this.$store.state.shopcart);
+            localStorage.setItem("shopcart", shopcartJson);
+          }).catch(()=>{
+
+          });
+        } else {
+          let i = e.target.dataset.i;
+          if (
+            this.$store.state.shopcart[i].count > 1 ||
+            e.target.dataset.n == 1
+          ) {
+            this.$store.state.shopcart[i].count += parseInt(e.target.dataset.n);
+            let shopcartJson = JSON.stringify(this.$store.state.shopcart);
+            localStorage.setItem("shopcart", shopcartJson);
+          }
+        }
+      }
+    },
+    changeChecked(e){
+      this.$store.state.shopcart.forEach(obj=>{
+        if(this.bool){
+          obj.ischecked=false;
+        }else{
+          obj.ischecked=true;
+        }
+      })
+      this.bool=!this.bool;
+    }
+  },
+
+  computed: {
+    totalPrice() {
+      let sum = 0;
+      for (let p of this.$store.state.shopcart) {
+        if (p.ischecked) {
+          sum += p.price * p.count;
+        }
+      }
+      return sum;
+    },
+    ischeck(){
+      return this.$store.state.shopcart.every(obj=>{
+        return obj.ischecked && this.bool
+      })
+    }
   },
   mounted() {
     this.$axios.get("/detail/prolist?iscake=1&taste=").then((res) => {
@@ -459,6 +530,15 @@ div.cart-list
   > a:last-child::before {
   background-position: -0.2rem 0;
 }
+div.cart-list
+  div.goods_message
+  > div.goods_detail
+  > div.input_wrap
+  > a.del::before {
+  background: url("../assets/icons_1.png") no-repeat center;
+  background-position: -1.4rem -0.4rem;
+  background-size: 2rem 2rem;
+}
 div.cart-list div.more_info {
   margin-top: 0.1rem;
   min-height: 0.5rem;
@@ -487,5 +567,87 @@ div.cart-list div.more_info > h4 > span::before {
   margin-top: -0.1rem;
   background-position: -1.6rem -0.4rem;
   right: 0;
+}
+div.amount {
+  height: 0.5rem;
+  margin-top: 0.1rem;
+  background: transparent;
+}
+div.amount div.inner {
+  position: fixed;
+  z-index: 100;
+  height: 0.5rem;
+  left: 0;
+  bottom: 0.54rem;
+  bottom: calc(0.54rem + env(safe-area-inset-bottom));
+  width: 100%;
+  background: #ffffff;
+}
+div.amount div.inner > a {
+  height: 0.5rem;
+  top: 0;
+  position: absolute;
+  width: 0.4rem;
+  left: 0.1rem;
+}
+div.amount div.inner > a::after{
+  content: '';
+  display: block;
+  width: 1rem;
+  height: 0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+div.amount div.inner > div.clearing {
+  float: right;
+}
+div.amount div.inner > div.total_price {
+  float: right;
+  text-align: right;
+  margin-right: 0.08rem;
+}
+div.amount div.inner > a > div.van-checkbox > span.van-checkbox__label {
+  position: absolute;
+  top: 50%;
+  margin-top: -0.08rem;
+  left: 0.26rem;
+  width: 0.4rem;
+  height: 0.16rem;
+  font-size: 0.12rem;
+}
+div.amount div.inner > a > div.van-checkbox > div.van-checkbox__icon {
+  position: absolute;
+  width: 0.2rem;
+  height: 0.2rem;
+  top: 50%;
+  margin-top: -0.1rem;
+  left: 50%;
+  margin-left: -0.1rem;
+}
+div.amount div.inner > div.clearing > a {
+  width: 0.9rem;
+  background: #ff4001;
+  float: left;
+  height: 0.5rem;
+  color: #ffffff;
+  font-size: 0.11rem;
+  display: table;
+  text-align: center;
+  line-height: 0.5rem;
+}
+div.amount div.inner > div.total_price > p {
+  height: 0.5rem;
+  display: table-cell;
+  vertical-align: middle;
+}
+div.amount div.inner > div.total_price > p > span {
+  font-size: 0.1rem;
+  display: block;
+}
+div.amount div.inner > div.total_price > p > span > strong {
+  font-size: 0.12rem;
+  font-weight: bold;
+  color: #ff4001;
 }
 </style>

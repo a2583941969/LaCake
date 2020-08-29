@@ -196,7 +196,7 @@
         </div>
       </div>
       <div class="btn">
-        <button>立即购买</button>
+        <button @click="goShopcart">立即购买</button>
         <button @click="addCart">加入购物车</button>
       </div>
     </van-popup>
@@ -205,6 +205,7 @@
 
 <script>
 import proShow from "../components/proShow.vue";
+import { mapMutations } from "vuex";
 export default {
   components: {
     proShow,
@@ -241,11 +242,47 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["set_shopcart"]),
     onClickButton() {
       this.shopShow = true;
     },
+    goShopcart(){
+      this.$router.push('/shopcart')
+    },
     addCart() {
       this.shopShow = false;
+      // 将商品保存在一个对象里
+      let pro = {
+        pid: this.pro_blurb.pid,
+        pname: this.pro_blurb.pname,
+        price: this.price,
+        img: "http://127.0.0.1:3000/public/img/details/" + this.pro_blurb.img_show,
+        ischecked: true,
+        count: 1,
+        servings:this.servings
+      };
+      // 判断当缓存里没有保存购物车的属性时，直接添加至数组
+      if (localStorage.getItem("shopcart") == undefined) {
+        this.set_shopcart(pro);
+      } else {
+        // 如果有保存购物车的属性时,先判断购物车里是否有此商品的相同规格,如果有,则数量+1,如果没有,则追加至数组
+        // 使用ES6 数组API  some筛选是否有相同商品相同属性
+        let bool = this.$store.state.shopcart.some((item) => {
+          return item.pid == pro.pid && item.servings == pro.servings;
+        });
+        if (bool) {
+          for (let obj of this.$store.state.shopcart) {
+            if (obj.pid == pro.pid && obj.servings == pro.servings) {
+              obj.count++;
+            }
+          }
+        } else {
+          this.set_shopcart(pro);
+        }
+      }
+      let shopcart = JSON.stringify(this.$store.state.shopcart);
+      localStorage.setItem("shopcart", shopcart);
+
       this.$toast("加入成功");
     },
     // 按顺序执行的函数
@@ -308,7 +345,6 @@ export default {
         this.price = e.target.dataset.price;
         this.spec = e.target.dataset.spec;
         this.servings = e.target.dataset.servings;
-        console.log(123)
       }
     },
   },
@@ -418,7 +454,7 @@ div.goods_switch > a {
 div.goods_switch > a:nth-child(4) {
   margin: 0;
 }
-div.goods_switch > a:nth-child(5){
+div.goods_switch > a:nth-child(5) {
   margin-top: 0.08rem;
 }
 div.goods_switch > a.active {

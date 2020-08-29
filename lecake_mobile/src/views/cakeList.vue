@@ -1,6 +1,7 @@
 <template>
   <div class="cake">
     <mynavbar :taste="taste" @changeTaste="changeTaste"></mynavbar>
+
     <div class="pro-list">
       <pro-show
         v-for="(pro,i) of products"
@@ -15,6 +16,7 @@
     <div class="bottom_text">
       <p>没有更多产品咯</p>
     </div>
+
     <tabber :active="'birthday'"></tabber>
   </div>
 </template>
@@ -56,18 +58,18 @@ export default {
           // 将商品规格转为数组对象
           e.pspecs = JSON.parse(e.pspecs);
           this.products.push(e);
-        }) ;
+        });
       });
     },
   },
   watch: {
     // 监听taste，改变需发送请求
     taste() {
-      this.products=[];
+      this.products = [];
       // 判断是否为空字符串
       if (this.taste == "") {
         this.getPro();
-      }else{
+      } else {
         this.getPro(this.taste);
       }
     },

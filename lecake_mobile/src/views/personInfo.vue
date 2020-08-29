@@ -53,11 +53,12 @@ export default {
     tabber,
   },
   methods: {
-  ...mapMutations(["set_isLogin", "set_phoneNum"]),
+  ...mapMutations(["set_isLogin", "set_phoneNum","set_shopcart"]),
     logout() {
       localStorage.clear();
       this.set_isLogin(false);
       this.set_phoneNum('')
+      this.set_shopcart()
       this.$router.push('/')
     },
   },
