@@ -15,7 +15,7 @@
       <div class="form_item">
         <span>手机号：</span>
         <p>
-          <span>18228631560</span>
+          <span>{{$store.state.phoneNum}}</span>
         </p>
       </div>
       <!-- 性别 -->

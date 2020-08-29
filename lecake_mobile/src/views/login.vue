@@ -148,8 +148,8 @@ export default {
             .then((res) => {
               localStorage.setItem("isLogin", true);
               localStorage.setItem("phoneNum", this.phone_num);
+              this.set_phoneNum(this.phone_num);
               this.set_isLogin(true);
-
               this.$router.push("/mycenter");
             });
         }
@@ -198,8 +198,8 @@ export default {
               .then((res) => {
                 localStorage.setItem("isLogin", true);
                 localStorage.setItem("phoneNum", this.rec);
+                this.set_phoneNum(this.rec);
                 this.set_isLogin(true);
-
                 this.$router.push("/mycenter");
               });
           }
