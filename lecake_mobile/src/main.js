@@ -15,6 +15,16 @@ Vue.use(Vant);
 Vue.use(Lazyload);
 Vue.config.productionTip = false
 
+// 设置路由守卫
+router.beforeEach((to,from,next)=>{
+  if(to.meta.guard){
+    store.state.isLogin?next():next("/login")
+  }else{
+    next();
+  }
+});
+
+
 new Vue({
   router,
   store,

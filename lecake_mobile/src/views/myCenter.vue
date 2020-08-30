@@ -60,7 +60,7 @@
     <div class="serve clear_fix">
       <p>我的服务</p>
       <a href="javascript:;">生日助手</a>
-      <a @click="goPerson">个人资料</a>
+      <router-link to="/personinfo">个人资料</router-link>
       <a href="javascript:;">储值卡专享兑换券</a>
       <a href="javascript:;">在线客服</a>
       <a href="javascript:;">我的发票</a>
@@ -77,15 +77,9 @@ export default {
   components: {
     tabber,
   },
-  methods:{
-    goPerson(){
-      if(this.$store.state.isLogin){
-        this.$router.push("/personinfo")
-      }else{
-        this.$router.push("/login")
-      }
-    }
-  }
+  methods: {
+
+  },
 };
 </script>
 <style>

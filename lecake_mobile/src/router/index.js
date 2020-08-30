@@ -21,58 +21,39 @@ Vue.use(VueRouter)
   {
     path: '/dessert',
     name: 'dessert',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "dessert" */ '../views/dessert.vue')
+    component: () => import('../views/dessert.vue')
   },
   {
     path: '/detail',
     name: 'detail',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "detail" */ '../views/detail.vue')
+
+    component: () => import('../views/detail.vue')
   },
   {
     path: '/shopcart',
     name: 'shopcart',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "shopcart" */ '../views/shopCart.vue')
+    component: () => import('../views/shopCart.vue')
   },
   {
     path: '/mycenter',
     name: 'mycenter',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "shopcart" */ '../views/myCenter.vue')
+    component: () => import('../views/myCenter.vue')
   },
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "shopcart" */ '../views/login.vue')
+    component: () => import('../views/login.vue')
   },
   {
     path: '/personinfo',
     name: 'personinfo',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "shopcart" */ '../views/personInfo.vue')
+    component: () => import('../views/personInfo.vue'),
+    meta:{guard:true}
   },
   {
     path: '/setpwd',
     name: 'setpwd',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "shopcart" */ '../views/setpwd.vue')
+    component: () => import('../views/setpwd.vue')
   }
 ]
 
