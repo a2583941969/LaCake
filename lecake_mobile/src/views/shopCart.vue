@@ -223,24 +223,22 @@ div.shopcart div.no-shop > p {
 }
 div.shopcart div.recommend > div.division {
   border-top: 1px solid #d1c6af;
-  padding: 0.2rem 0 0.16rem;
+  padding: 0.2rem 0 0;
   color: #a38d6b;
   text-align: center;
   margin: 0 0.16rem;
 }
-div.shopcart div.recommend > div.division h2 {
-  text-align: center;
+div.shopcart div.recommend > div.division>h2 {
   height: 0.5rem;
   line-height: 0.5rem;
   font-weight: bold;
   font-size: 0.15rem;
 }
-div.shopcart div.recommend > div.division h3 {
+div.shopcart div.recommend > div.division>h3 {
   font-size: 0.12rem;
 }
 div.pro-list {
   padding: 0.15rem;
-  padding-top: 0.47rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
