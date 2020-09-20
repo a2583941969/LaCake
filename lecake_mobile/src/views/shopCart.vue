@@ -85,7 +85,7 @@
             <van-checkbox v-model="ischeck" checked-color="#ff4001" >全选</van-checkbox>
           </a>
           <div class="clearing">
-            <a href="javascript:;">结算</a>
+            <router-link to="#" @click.native="gotoLogin">结算</router-link>
           </div>
           <div class="total_price">
             <p>
@@ -162,6 +162,11 @@ export default {
         }
       })
       this.bool=!this.bool;
+    },
+    gotoLogin(){
+      if(!this.$store.state.isLogin){
+        this.$router.push("/login")
+      }
     }
   },
 
@@ -197,7 +202,7 @@ export default {
 </script>
 
 <style>
-div.shopcart div.no-shop {
+div.shopcart div.no-shop{
   position: relative;
   height: 2.2rem;
   text-align: center;
@@ -578,8 +583,8 @@ div.amount div.inner {
   z-index: 100;
   height: 0.5rem;
   left: 0;
-  bottom: 0.54rem;
-  bottom: calc(0.54rem + env(safe-area-inset-bottom));
+  bottom: 0.55rem;
+  bottom: calc(0.55rem + env(safe-area-inset-bottom));
   width: 100%;
   background: #ffffff;
 }

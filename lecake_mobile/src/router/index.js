@@ -13,10 +13,7 @@ Vue.use(VueRouter)
   {
     path: '/cake',
     name: 'cake',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "cakeList" */ '../views/cakeList.vue')
+    component: () => import('../views/cakeList.vue')
   },
   {
     path: '/dessert',
@@ -53,7 +50,7 @@ Vue.use(VueRouter)
   {
     path: '/setpwd',
     name: 'setpwd',
-    component: () => import('../views/setpwd.vue')
+    component: () => import('../views/setpwd.vue'),
   }
 ]
 

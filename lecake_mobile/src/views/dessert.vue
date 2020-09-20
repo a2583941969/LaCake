@@ -63,7 +63,7 @@ div.dessert{
 div.main{
   padding-top: 0.47rem;;
 }
-div.banner{
+div.dessert div.banner{
   padding:0 0.15rem;
   box-sizing: border-box;
 }

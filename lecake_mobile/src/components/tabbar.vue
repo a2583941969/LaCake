@@ -83,12 +83,12 @@ export default {
 </script>
 <style>
 div.van-hairline--top-bottom > div > div > img {
-  width: 33px;
-  height: 33px;
+  width: 0.3rem;
+  height: 0.3rem;
 }
 div.van-tabbar {
   border-top: 1px solid #d1c6af;
-  height: auto;
+  height: calc(.54rem + env(safe-area-inset-bottom));
 }
 div.van-tabbar-item {
   font-size: 0.12rem;

@@ -38,6 +38,7 @@ export default {
     },
     filtrate(e) {
       if (e.target.nodeName == "A") {
+        
         this.$emit("showFiltrate");
         // 判断，如果用户点击的是重置，则将t改为空字符串传值
         if (e.target.dataset.text == "reset") {

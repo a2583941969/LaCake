@@ -115,7 +115,6 @@ div.clear_fix {
 }
 div.clear_fix > p {
   padding: 0.1rem;
-
   border-bottom: 1px solid #f9f9f9;
 }
 div.clear_fix::after {

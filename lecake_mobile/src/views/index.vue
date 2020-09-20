@@ -4,7 +4,7 @@
       <!-- 左侧城市刘表 -->
       <div class="city">
         <div is-link @click="showP">
-          <a href="javascrpt:;">
+          <a>
             <i></i>
             <span>{{ci}}</span>
           </a>

@@ -1,7 +1,6 @@
 <template>
   <div class="pro">
     <div>
-      <!-- :to="'/detail?pid='+pid" -->
       <a @click="goDetail">
         <img :src="url" alt />
       </a>

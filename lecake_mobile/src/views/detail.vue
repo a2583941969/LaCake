@@ -97,7 +97,7 @@
               />
             </div>
           </div>
-          <div class="desc_col_if" v-if=" pro_blurb.pdetail.length>2 ">
+          <div class="desc_col_if" v-if="pro_blurb.pdetail.length>2 ">
             <div>
               <img
                 v-lazy="'http://127.0.0.1:3000/public/img/details/'+pro_blurb.pdetail[2].url"
@@ -106,7 +106,7 @@
             </div>
             <div
               v-html="pro_blurb.pdetail[2].detail_text"
-              v-if="pro_blurb.pdetail[2].detail_text!=''"
+              v-if="pro_blurb.pdetail[2].detail_text"
             ></div>
           </div>
           <div class="desc_col_if" v-if="pro_blurb.f_id!==60">
@@ -246,8 +246,8 @@ export default {
     onClickButton() {
       this.shopShow = true;
     },
-    goShopcart(){
-      this.$router.push('/shopcart')
+    goShopcart() {
+      this.$router.push("/shopcart");
     },
     addCart() {
       this.shopShow = false;
@@ -256,10 +256,11 @@ export default {
         pid: this.pro_blurb.pid,
         pname: this.pro_blurb.pname,
         price: this.price,
-        img: "http://127.0.0.1:3000/public/img/details/" + this.pro_blurb.img_show,
+        img:
+          "http://127.0.0.1:3000/public/img/details/" + this.pro_blurb.img_show,
         ischecked: true,
         count: 1,
-        servings:this.servings
+        servings: this.servings,
       };
       // 判断当缓存里没有保存购物车的属性时，直接添加至数组
       if (localStorage.getItem("shopcart") == undefined) {
@@ -289,10 +290,13 @@ export default {
     promise(pid) {
       return new Promise((resolve, reject) => {
         this.$axios.get("/detail/info?pid=" + pid).then((result) => {
+          // console.log(result)
           // 对请求回来的数据处理
           // 将详情页banner图切割成一个数组
           result.data[0].pbanner = result.data[0].pbanner.split("|");
-          result.data[0].pro_text = result.data[0].pro_text.split("|");
+          if(result.data[0].pro_text){
+            result.data[0].pro_text = result.data[0].pro_text.split("|");
+          }
           // 将商品对象内的JSON字符串格式的数据 介绍转为数组对象
           result.data[0].pspecs = JSON.parse(result.data[0].pspecs);
           if (result.data[0].f_id !== 60) {
@@ -309,7 +313,7 @@ export default {
           this.price = this.pro_blurb.pspecs[0].price;
           this.spec = this.pro_blurb.pspecs[0].spec;
           this.servings = this.pro_blurb.pspecs[0].servings;
-          console.log(this.pro_blurb);
+          // console.log(this.pro_blurb);
           resolve(this.pro_blurb.iscake);
         });
       }).then((iscake) => {
@@ -353,9 +357,9 @@ export default {
       if (this.bool) {
         this.products = [];
         this.promise(this.pid);
-        // setTimeout(()=>{
+        setTimeout(()=>{
         this.scrollToTop();
-        // },1000)
+        },500)
       }
     },
   },
@@ -504,13 +508,13 @@ div.product-info div.top > div > p {
   font-size: 0.2rem;
 }
 div.product-info div.top > a {
-  z-index: 2;
-  position: absolute;
-  width: 0.3rem;
-  height: 0.3rem;
-  right: 0;
-  top: 0;
-  overflow: hidden;
+    z-index: 2;
+    position: absolute;
+    width: 0.3rem;
+    height: 0.3rem;
+    right: 0;
+    top: 0;
+    overflow: hidden;
 }
 div.product-info div.top > a > i {
   width: 0.3rem;
